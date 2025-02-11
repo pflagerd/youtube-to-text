@@ -1,0 +1,10 @@
+sudo apt install git-lfs
+
+cd youtube-to-text/
+rm -rf .git .gitattributes # I trashed the old repo
+git init
+git remote add origin git@github.com:pflagerd/youtube-to-text.git
+git config pull.rebase false
+time git add .
+git commit -a -m"first commit"
+time git push -u origin master

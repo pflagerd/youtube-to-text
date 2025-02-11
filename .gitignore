@@ -1,0 +1,12 @@
+__pycache__/
+.venv/
+.~lock*
+*.kate-swp
+.chromium-browser/
+.idea/
+*.apikey
+client_secret.json
+*.mp3
+*.webm
+*.mp4
+*.mkv

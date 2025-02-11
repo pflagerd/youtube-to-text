@@ -1,0 +1,10 @@
+Write a program which, when given a youtube url like this https://www.youtube.com/watch?v=Rc6LakZ_Fvc can produce a text file containing all the speech in that text file.
+
+This is the final result: youtube-to-text.py
+
+This was the first experiment, based on a ChatGPT recommendation: openai-developer-quickstart.py
+This is the first step, software to download a youtube video: download-from-youtube.py
+This is the second step, converting the mp4 into an audio-only mp3: extract-audio-from-video.py
+This is the last step, converting an mp3 into a .txt using chatgpt: youtube-audio-to-text.py
+
+youtube-to-text.py is just a merge of download-from-youtube.py, extract-audio-from-video.py, and youtube-audio-to-text.py.
