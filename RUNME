@@ -1,0 +1,8 @@
+#!/bin/bash
+pushd $(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd) >/dev/null
+
+source ./SETMEUP
+.venv/bin/pytest -s simple-python-gui-automation.py
+
+popd >/dev/null
+

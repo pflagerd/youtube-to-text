@@ -15,6 +15,6 @@ file_extension = os.path.splitext(sys.argv[1])[1]
 (
     ffmpeg
     .input(sys.argv[1])  # Input video file
-    .output(sys.argv[1].replace(file_extension, ".mp3"), acodec='mp3')  # Output file with audio codec set to mp3
+    .output(sys.argv[1].replace(file_extension, ".mp3"), acodec='libmp3lame')  # Output file with audio codec set to mp3
     .run()
 )

@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 from openai import OpenAI
 from pathlib import Path
 import sys
@@ -12,7 +13,7 @@ if len(sys.argv) != 2:
   print(usage)
   sys.exit(1)
 
-api_key = ""
+api_key = os.environ['API_KEY']
 client = OpenAI(api_key=api_key)
 
 audio_file= open(sys.argv[1], "rb")

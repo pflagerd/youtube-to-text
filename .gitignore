@@ -11,3 +11,4 @@
 /blog/
 __pycache__/
 client_secret.json
+/python-venv-bootstrap/
