@@ -1,10 +1,11 @@
 #!/usr/bin/env python
+import ffmpeg
+from ffmpeg import *
+
 import yt_dlp
 from urllib.parse import urlparse
 import os
 import sys
-
-import ffmpeg
 
 from openai import OpenAI
 from pathlib import Path
@@ -29,21 +30,20 @@ def download_video(url, output_path):
 video_url = sys.argv[1]
 indexOfThing = video_url.index("v=")
 output_file = video_url[indexOfThing + 2:] + ".mp4"
-download_video(video_url, output_file)
+
+if not os.path.exists(output_file):
+    download_video(video_url, output_file)
 
 file_extension = os.path.splitext(output_file)[1]
 mp3_output_file = output_file.replace(file_extension, ".mp3")
 
 
 # Extract audio
-(
-    ffmpeg
-    .input(output_file)  # Input video file
-    .output(output_file.replace(file_extension, ".mp3"), acodec='mp3')  # Output file with audio codec set to mp3
-    .run()
-)
+if not os.path.exists(mp3_output_file):
+    ffmpeg.input(output_file).output(output_file.replace(file_extension, ".mp3"), acodec='mp3').run()
 
-client = OpenAI(api_key="")
+api_key = os.environ['API_KEY']
+client = OpenAI(api_key=api_key)
 
 audio_file= open(output_file.replace(file_extension, ".mp3"), "rb")
 transcription = client.audio.transcriptions.create(
