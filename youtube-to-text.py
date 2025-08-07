@@ -37,10 +37,17 @@ if not os.path.exists(output_file):
 file_extension = os.path.splitext(output_file)[1]
 mp3_output_file = output_file.replace(file_extension, ".mp3")
 
+import ffmpeg
+
+probe = ffmpeg.probe("input.mp4")
+duration = float(probe['format']['duration'])
+print(f"Video duration: {duration:.2f} seconds")
+print(f"Video duration: {duration:.2f} seconds")
+
 
 # Extract audio
 if not os.path.exists(mp3_output_file):
-    ffmpeg.input(output_file).output(output_file.replace(file_extension, ".mp3"), acodec='mp3').run()
+    ffmpeg.input(output_file).output(mp3_output_file, acodec='mp3').run()
 
 api_key = os.environ['API_KEY']
 client = OpenAI(api_key=api_key)
