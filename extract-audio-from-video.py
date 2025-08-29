@@ -11,6 +11,10 @@ if len(sys.argv) != 2:
 
 file_extension = os.path.splitext(sys.argv[1])[1]
 
+probe = ffmpeg.probe(mp4_output_file)
+duration = float(probe['format']['duration'])
+print(f"Video duration: {duration:.2f} seconds")
+
 # Extract audio
 (
     ffmpeg

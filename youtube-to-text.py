@@ -28,31 +28,31 @@ def download_video(url, output_path):
 
 # Example usage
 video_url = sys.argv[1]
-indexOfThing = video_url.index("v=")
-output_file = video_url[indexOfThing + 2:] + ".mp4"
+indexOfThing = video_url.find("v=")
+if indexOfThing != -1:
+    mp4_output_file = video_url[indexOfThing + 2:] + ".mp4"
+else:
+    mp4_output_file = video_url[video_url.rfind("/") + 1:] + ".mp4"
 
-if not os.path.exists(output_file):
-    download_video(video_url, output_file)
+if not os.path.exists(mp4_output_file):
+    download_video(video_url, mp4_output_file)
 
-file_extension = os.path.splitext(output_file)[1]
-mp3_output_file = output_file.replace(file_extension, ".mp3")
+mp3_output_file = mp4_output_file.replace(".mp4", ".mp3")
 
 import ffmpeg
 
-probe = ffmpeg.probe("input.mp4")
+probe = ffmpeg.probe(mp4_output_file)
 duration = float(probe['format']['duration'])
 print(f"Video duration: {duration:.2f} seconds")
-print(f"Video duration: {duration:.2f} seconds")
-
 
 # Extract audio
 if not os.path.exists(mp3_output_file):
-    ffmpeg.input(output_file).output(mp3_output_file, acodec='mp3').run()
+    ffmpeg.input(mp4_output_file).output(mp3_output_file, acodec='mp3').run()
 
 api_key = os.environ['API_KEY']
 client = OpenAI(api_key=api_key)
 
-audio_file= open(output_file.replace(file_extension, ".mp3"), "rb")
+audio_file= open(mp4_output_file.replace(".mp4", ".mp3"), "rb")
 transcription = client.audio.transcriptions.create(
   model="whisper-1",
   file=audio_file
