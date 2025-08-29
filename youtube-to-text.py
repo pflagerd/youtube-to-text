@@ -28,4 +28,5 @@ if not isinstance(mp3_filenames, list):
 else:
     txt_filenames = []
     for mp3_filename in mp3_filenames:
+        print("Extracting text from" + mp3_filename)
         txt_filenames.append(mp3_to_text.to_text(mp3_filename))
