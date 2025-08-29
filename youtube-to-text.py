@@ -4,7 +4,6 @@ import download_from_youtube
 import extract_mp3s_from_youtube_mp4
 import mp3_to_text
 
-import os
 import sys
 
 if __name__ == "__main__":
