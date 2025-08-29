@@ -21,6 +21,7 @@ video_url = sys.argv[1]
 print("Downloading youtube video from " + video_url)
 mp4_filename = download_from_youtube.download_mp4(video_url)
 
+print("Extracting mp3(s) from " + mp4_filename)
 mp3_filenames = extract_mp3s_from_youtube_mp4.extract_mp3s(mp4_filename)
 
 if not isinstance(mp3_filenames, list):
