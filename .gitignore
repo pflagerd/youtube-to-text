@@ -8,7 +8,8 @@
 .idea/
 .venv/
 .~lock*
-/blog/
 __pycache__/
 client_secret.json
-/python-venv-bootstrap/
+/audio
+/text
+/video
