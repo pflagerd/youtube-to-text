@@ -20,12 +20,8 @@ if ! [ -d .venv/ ]; then
   python3 -m venv .venv
 fi
 
-# .venv/bin/pip freeze > /tmp/SETMEUP-8b44a260-f9ef-43c7-92dd-8d41ecfd6f08
-#
-# if ! diff requirements.txt /tmp/SETMEUP-8b44a260-f9ef-43c7-92dd-8d41ecfd6f08; then
-#   .venv/bin/pip install -r requirements.txt || (echo "Something went wrong pip installing requirements.txt" && exit 1)
-# fi
+source .venv/bin/activate
 
-#rm /tmp/SETMEUP-8b44a260-f9ef-43c7-92dd-8d41ecfd6f08
+pip install -r requirements.in
 
 popd >/dev/null
