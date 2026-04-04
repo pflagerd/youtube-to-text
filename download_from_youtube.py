@@ -10,12 +10,15 @@ if len(sys.argv) != 2:
   print(usage)
   sys.exit(1)
 
-def download_mp4(url):
-    indexOfThing = url.find("v=")
-    if indexOfThing != -1:
-        mp4_filename = url[indexOfThing + 2:] + ".mp4"
+def extract_youtube_id_from_url(url):
+    offset_of_youtube_id = url.find("v=")
+    if offset_of_youtube_id != -1:
+        return url[offset_of_youtube_id + 2:]
     else:
-        mp4_filename = url[url.rfind("/") + 1:] + ".mp4"
+        return url[url.rfind("/") + 1:]
+
+def download_mp4(url):
+    mp4_filename = extract_youtube_id_from_url(url) + ".mp4"
 
     if not os.path.exists(mp4_filename):
         ydl_opts = {
