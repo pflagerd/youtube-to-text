@@ -1,8 +1,6 @@
 #!/bin/bash
-pushd $(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd) >/dev/null
+mydirname="$(dirname "${BASH_SOURCE[0]}")"
 
-source ./SETMEUP
-.venv/bin/pytest -s simple-python-gui-automation.py
-
-popd >/dev/null
-
+source "$mydirname"/SETMEUP
+export PYTHONPATH="$mydirname:$PYTHONPATH"
+"$mydirname"/.venv/bin/python "$mydirname"/youtube-to-text.py $@

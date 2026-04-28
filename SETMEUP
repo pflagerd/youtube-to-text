@@ -9,19 +9,18 @@ if ! sudo apt list --installed 2>/dev/null | grep python3-venv >/dev/null 2>&1; 
   sudo apt install python3-venv -y >/dev/null 2>&1 || (echo "Something went wrong installing python3-venv" && exit 1)
 fi
 
-pushd $(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd) >/dev/null
+setmeup_dirname="$(dirname "${BASH_SOURCE[0]}")"
 
 if ! (which python3 >/dev/null && python3 --version | grep ' 3.' >/dev/null); then
   echo "You must have python 3 installed to run this."
   exit 1
 fi
 
-if ! [ -d .venv/ ]; then
+if ! [ -d "$setmeup_dirname/".venv/ ]; then
+  pushd $(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd) >/dev/null
   python3 -m venv .venv
+  popd >/dev/null
 fi
 
-source .venv/bin/activate
+"$setmeup_dirname/".venv/bin/pip install -r "$setmeup_dirname/"requirements.in
 
-pip install -r requirements.in
-
-popd >/dev/null

@@ -25,7 +25,7 @@ if __name__ == "__main__":
     print("Extracting mp3(s) from " + mp4_filename)
     mp3_filenames = extract_mp3s_from_youtube_mp4.extract_mp3s(mp4_filename)
 
-    with open("openai.apikey", encoding="utf-8") as f:
+    with open(Path(sys.argv[0]).parent / "openai.apikey", encoding="utf-8") as f:
         apikey = f.read().strip()
 
     transcription = ""
