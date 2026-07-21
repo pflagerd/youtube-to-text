@@ -21,7 +21,7 @@ if ! [ -d .venv/ ]; then
   python3 -m venv .venv
 fi
 
-.venv/bin/pip install -r requirements.txt || (echo "Something went wrong pip installing requirements.txt" && exit 1)
+.venv/bin/pip install -r requirements.in || (echo "Something went wrong pip installing requirements.txt" && exit 1)
 
 popd >/dev/null
 
