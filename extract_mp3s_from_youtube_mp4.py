@@ -26,13 +26,6 @@ def extract_mp3s(mp4_filename):
             mp3_filenames.append(mp3_filename)
             if not os.path.exists(mp3_filename):
                 ffmpeg.input(mp4_filename, ss=startTime).output(mp3_filename, acodec='libmp3lame', t=15 * 60 + 1).run()
-
-            # (
-            #     ffmpeg
-            #     .input(sys.argv[1])  # Input video file
-            #     .output(sys.argv[1].replace(file_extension, ".mp3"), acodec='libmp3lame')  # Output file with audio codec set to mp3
-            #     .run()
-            # )
         return mp3_filenames
 
 if __name__ == '__main__':
