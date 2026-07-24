@@ -14,19 +14,13 @@ def extract_mp3s(mp4_filename):
             yield startTime
             startTime += step
 
-    if duration <= 15 * 60.0:
-        mp3_filename = mp4_filename.replace(".mp4", ".mp3")
+    mp3_filenames = []
+    for startTime in frange(0.0, duration, 15 * 60.0):
+        mp3_filename = mp4_filename.replace(".mp4", "-" + str(startTime) + ".mp3")
+        mp3_filenames.append(mp3_filename)
         if not os.path.exists(mp3_filename):
-            ffmpeg.input(mp4_filename).output(mp3_filename, acodec='mp3').run()
-        return mp3_filename
-    else:
-        mp3_filenames = []
-        for startTime in frange(0.0, duration, 15 * 60.0):
-            mp3_filename = mp4_filename.replace(".mp4", "-" + str(startTime) + ".mp3")
-            mp3_filenames.append(mp3_filename)
-            if not os.path.exists(mp3_filename):
-                ffmpeg.input(mp4_filename, ss=startTime).output(mp3_filename, acodec='libmp3lame', t=15 * 60 + 1).run()
-        return mp3_filenames
+            ffmpeg.input(mp4_filename, ss=startTime).output(mp3_filename, acodec='libmp3lame', t=15 * 60 + 1).run()
+    return mp3_filenames
 
 if __name__ == '__main__':
     usage = "extract-audio-from-video some.mp4"

@@ -28,15 +28,7 @@ if __name__ == "__main__":
     with open(Path(sys.argv[0]).parent / "openai.apikey", encoding="utf-8") as f:
         apikey = f.read().strip()
 
-        transcription = ""
-        if not isinstance(mp3_filenames, list):
-            print("Extracting text from " + mp3_filenames)
-            transcription = audio_to_text.audio_to_text(mp3_filenames, apikey)
-        else:
-            for mp3_filename in mp3_filenames:
-                print("Extracting text from " + mp3_filename)
-                transcription += " " + audio_to_text.audio_to_text(mp3_filename, apikey)
-
-        transcription_filename = download_from_youtube.extract_youtube_id_from_url(video_url) + ".txt"
+        transcription_filename = mp4_filename + ".txt"
         print("Writing transcription to " + transcription_filename)
-        Path(transcription_filename).write_text(transcription)
+        Path(transcription_filename).write_text(audio_to_text.audio_to_text(mp3_filenames, apikey))
+
