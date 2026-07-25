@@ -4,12 +4,6 @@ from urllib.parse import urlparse
 import os
 import sys
 
-usage="download-from-youtube some-youtube.url"
-
-if len(sys.argv) != 2:
-  print(usage)
-  sys.exit(1)
-
 def extract_youtube_id_from_url(url):
     offset_of_youtube_id = url.find("v=")
     if offset_of_youtube_id != -1:
@@ -34,6 +28,12 @@ def download_mp4(url):
 
 # Example usage
 if __name__ == "__main__":
+    usage = "download-from-youtube some-youtube.url"
+
+    if len(sys.argv) != 2:
+        print(usage)
+        sys.exit(1)
+
     video_url = sys.argv[1]
     print(video_url)
     print(download_mp4(video_url))
