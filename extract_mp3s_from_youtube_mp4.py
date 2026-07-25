@@ -1,9 +1,11 @@
 #!/usr/bin/env python
-import ffmpeg
+import ffmpeg # from ffmpeg-python pip package.
 import os
 import sys
 
 def extract_mp3s(mp4_filename):
+    ffmpeg.input(mp4_filename).output(mp4_filename.replace(".mp4", ".mp3")).run()
+
     probe = ffmpeg.probe(mp4_filename)
     duration = float(probe['format']['duration'])
     print(f"Video duration: {duration:.2f} seconds")
@@ -19,7 +21,7 @@ def extract_mp3s(mp4_filename):
         mp3_filename = mp4_filename.replace(".mp4", "-" + str(startTime) + ".mp3")
         mp3_filenames.append(mp3_filename)
         if not os.path.exists(mp3_filename):
-            ffmpeg.input(mp4_filename, ss=startTime).output(mp3_filename, acodec='libmp3lame', t=15 * 60 + 1).run()
+            ffmpeg.input(mp4_filename, ss=startTime).output(mp3_filename, t=15 * 60 + 1).run()
     return mp3_filenames
 
 if __name__ == '__main__':
