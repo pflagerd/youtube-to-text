@@ -1,3 +1,5 @@
+Replace the text README with a README.html
+
 I want a table with each file or directory (including temporary ones such as in /tmp) and a description of what they are for.
 
 I want a semantic map showing the relationships between all the artifacts in the directory (including temporary ones)
