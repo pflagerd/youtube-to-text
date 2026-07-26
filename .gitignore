@@ -16,3 +16,4 @@ client_secret.json
 /tmp
 /test-youtube-to-text.py.log
 /test_download_from_youtube.py.log
+/test_convert_to_mp3.py.log
