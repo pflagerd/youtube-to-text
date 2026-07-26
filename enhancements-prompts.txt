@@ -1,0 +1,9 @@
+I want a table with each file or directory (including temporary ones such as in /tmp) and a description of what they are for.
+
+I want a semantic map showing the relationships between all the artifacts in the directory (including temporary ones)
+
+If the artifacts are runnable executables, I want to know how to run them, what they do, and what results to expect from them.
+
+I would also like to have a complete specification of their behavior as a set of requirements or similar.
+
+
