@@ -6,4 +6,3 @@ If the artifacts are runnable executables, I want to know how to run them, what 
 
 I would also like to have a complete specification of their behavior as a set of requirements or similar.
 
-
