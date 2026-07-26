@@ -15,3 +15,4 @@ client_secret.json
 /extracts
 /tmp
 /test-youtube-to-text.py.log
+/test_download_from_youtube.py.log

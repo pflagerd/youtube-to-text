@@ -33,7 +33,8 @@ def extract_mp3(mp4_filename):
 
     if not os.path.exists(mp3_filename):
         subprocess.run(
-            ["ffmpeg", "-y", "-i", mp4_filename, "-vn", "-acodec", "libmp3lame", mp3_filename],
+            ["ffmpeg", "-y", "-hide_banner", "-loglevel", "error",
+             "-i", mp4_filename, "-vn", "-acodec", "libmp3lame", mp3_filename],
             check=True,
         )
 
