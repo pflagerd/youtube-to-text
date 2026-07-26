@@ -22,11 +22,13 @@ after a run. Without it, ./tmp is wiped both before and after that test.
 """
 import argparse
 import filecmp
+import logging
 import runpy
 import shutil
 import subprocess
 import sys
 import tempfile
+import time
 import types
 import unittest
 from pathlib import Path
@@ -34,6 +36,14 @@ from unittest.mock import MagicMock
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 SCRIPT_PATH = SCRIPT_DIR / "youtube-to-text.py"
+LOG_FILE_PATH = SCRIPT_DIR / "test-youtube-to-text.py.log"
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+    handlers=[logging.StreamHandler(), logging.FileHandler(LOG_FILE_PATH)],
+)
+logger = logging.getLogger(__name__)
 
 KNOWN_VIDEO_ID = "QeDvYObYeiM"
 KNOWN_VIDEO_URL = f"https://www.youtube.com/watch?v={KNOWN_VIDEO_ID}"
@@ -99,6 +109,8 @@ class UsageTest(unittest.TestCase):
         TMP_DIR.mkdir(parents=True, exist_ok=True)
 
         try:
+            logger.info("Starting youtube-to-text.py subprocess for %s", KNOWN_VIDEO_URL)
+            start_time = time.perf_counter()
             result = subprocess.run(
                 [_venv_python(), str(SCRIPT_PATH), KNOWN_VIDEO_URL],
                 cwd=TMP_DIR,
@@ -106,6 +118,12 @@ class UsageTest(unittest.TestCase):
                 text=True,
                 timeout=3600,
             )
+            elapsed_seconds = time.perf_counter() - start_time
+            logger.info(
+                "youtube-to-text.py subprocess for %s finished in %.2f seconds (exit code %s)",
+                KNOWN_VIDEO_URL, elapsed_seconds, result.returncode,
+            )
+
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
             for reference_file in reference_files:
