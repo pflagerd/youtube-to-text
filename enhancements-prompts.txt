@@ -8,3 +8,8 @@ If the artifacts are runnable executables, I want to know how to run them, what 
 
 I would also like to have a complete specification of their behavior as a set of requirements or similar.
 
+I would like claude to record what it does in "blog" entries in the same file.
+
+I would like the file to have a TODO section with checkboxed to-do items.
+
+I want to be able to maintain the thing using seamonkey only.
