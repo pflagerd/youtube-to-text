@@ -20,6 +20,7 @@ Pass --keep-artifacts to keep test_known_video_1's generated files in ./tmp
 useful for inspecting the downloaded video, split audio, or transcriptions
 after a run. Without it, ./tmp is wiped both before and after that test.
 """
+import argparse
 import filecmp
 import runpy
 import shutil
@@ -33,7 +34,6 @@ from unittest.mock import MagicMock
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 SCRIPT_PATH = SCRIPT_DIR / "youtube-to-text.py"
-USAGE = "youtube-to-text.py some-youtube.url"
 
 KNOWN_VIDEO_ID = "QeDvYObYeiM"
 KNOWN_VIDEO_URL = f"https://www.youtube.com/watch?v={KNOWN_VIDEO_ID}"
@@ -69,10 +69,14 @@ class UsageTest(unittest.TestCase):
                 timeout=30,
             )
 
-    def test_no_arguments_prints_usage_and_exits_1(self):
+    def test_no_arguments_prints_usage_and_exits_2(self):
+        # youtube-to-text.py's argument parsing is argparse now, so a
+        # missing required "url" argument is an argparse usage error:
+        # printed to stderr, exit code 2.
         result = self._run([])
-        self.assertEqual(result.returncode, 1)
-        self.assertIn(USAGE, result.stdout)
+        self.assertEqual(result.returncode, 2)
+        self.assertIn("usage: youtube-to-text.py", result.stderr)
+        self.assertIn("url", result.stderr)
 
     def test_known_video_1(self):
         # Full, real end-to-end run against a known video: downloads the
@@ -123,9 +127,13 @@ class UsageTest(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    # unittest.main() parses sys.argv itself and doesn't know this flag, so
-    # pull it out before handing argv off.
-    if "--keep-artifacts" in sys.argv:
-        sys.argv.remove("--keep-artifacts")
-        keep_test_artifacts = True
-    unittest.main()
+    # unittest.main() parses sys.argv itself and doesn't recognize this
+    # flag, so pull it out with parse_known_args and forward the rest
+    # (test names, -v, -k, ...) on to unittest untouched. add_help=False so
+    # -h/--help still falls through to unittest's own help text.
+    arg_parser = argparse.ArgumentParser(add_help=False)
+    arg_parser.add_argument("--keep-artifacts", action="store_true")
+    known_args, remaining_argv = arg_parser.parse_known_args()
+
+    keep_test_artifacts = known_args.keep_artifacts
+    unittest.main(argv=[sys.argv[0]] + remaining_argv)

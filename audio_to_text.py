@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 
+import argparse
 import ffmpeg
 from openai import OpenAI
 from pathlib import Path
 import split_audio
 import sys
-
-usage="youtube-audio-to-text somevideo.web"
 
 #
 # If create_output_file is True, this will generate a .txt file based on the .mp3 filename (appends ".txt")
@@ -32,12 +31,12 @@ def audio_to_text(filenames, api_key):
     return transcriptions
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-      print(usage)
-      sys.exit(1)
+    parser = argparse.ArgumentParser(description="youtube-audio-to-text")
+    parser.add_argument("files", nargs="+", help="Audio/video files to transcribe")
+    args = parser.parse_args()
 
     with open(Path(sys.argv[0]).parent / "openai.apikey", encoding="utf-8") as f:
         apikey = f.read().strip()
 
-        for i in range(1, len(sys.argv)):
-            Path(sys.argv[i] + ".txt").write_text(audio_to_text(split_audio.split_audio(sys.argv[i]), apikey))
+        for filename in args.files:
+            Path(filename + ".txt").write_text(audio_to_text(split_audio.split_audio(filename), apikey))

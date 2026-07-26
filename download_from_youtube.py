@@ -1,8 +1,8 @@
 #!/usr/bin/env python
+import argparse
 import yt_dlp
 from urllib.parse import urlparse
 import os
-import sys
 
 def extract_youtube_id_from_url(url):
     offset_of_youtube_id = url.find("v=")
@@ -28,12 +28,9 @@ def download_mp4(url):
 
 # Example usage
 if __name__ == "__main__":
-    usage = "download-from-youtube some-youtube.url"
+    parser = argparse.ArgumentParser(description="download-from-youtube")
+    parser.add_argument("url", help="YouTube video URL")
+    args = parser.parse_args()
 
-    if len(sys.argv) != 2:
-        print(usage)
-        sys.exit(1)
-
-    video_url = sys.argv[1]
-    print(video_url)
-    print(download_mp4(video_url))
+    print(args.url)
+    print(download_mp4(args.url))

@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import argparse
 import download_from_youtube
 import extract_mp3s_from_youtube_mp4
 import audio_to_text
@@ -11,14 +12,11 @@ import sys
 apikey = None
 
 if __name__ == "__main__":
-    usage="youtube-to-text.py some-youtube.url"
+    parser = argparse.ArgumentParser(description="Download a YouTube video and transcribe its audio.")
+    parser.add_argument("url", help="YouTube video URL")
+    args = parser.parse_args()
 
-    if len(sys.argv) != 2:
-      print(usage)
-      sys.exit(1)
-
-    # Example usage
-    video_url = sys.argv[1]
+    video_url = args.url
     print("Downloading youtube video from " + video_url)
     mp4_filename = download_from_youtube.download_mp4(video_url)
 

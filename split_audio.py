@@ -1,7 +1,7 @@
 #!/usr/bin/env python
+import argparse
 import ffmpeg
 import os
-import sys
 
 # noinspection PyShadowingNames
 def split_audio(filepath, chunk_minutes=15):
@@ -29,10 +29,11 @@ def split_audio(filepath, chunk_minutes=15):
     return audio_chunk_filepaths
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Usage: python split_audio.py <file.mp3> [chunk_minutes]")
-        sys.exit(1)
+    parser = argparse.ArgumentParser(description="Split an audio file into fixed-length chunks.")
+    parser.add_argument("filepath", help="Path to the audio file")
+    parser.add_argument(
+        "chunk_minutes", nargs="?", type=int, default=15, help="Chunk length in minutes (default: 15)"
+    )
+    args = parser.parse_args()
 
-    filepath = sys.argv[1]
-    minutes = int(sys.argv[2]) if len(sys.argv) > 2 else 15
-    print(split_audio(filepath, minutes))
+    print(split_audio(args.filepath, args.chunk_minutes))

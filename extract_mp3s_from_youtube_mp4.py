@@ -1,7 +1,7 @@
 #!/usr/bin/env python
+import argparse
 import ffmpeg # from ffmpeg-python pip package.
 import os
-import sys
 
 def extract_mp3s(mp4_filename):
     ffmpeg.input(mp4_filename).output(mp4_filename.replace(".mp4", ".mp3")).run()
@@ -25,12 +25,9 @@ def extract_mp3s(mp4_filename):
     return mp3_filenames
 
 if __name__ == '__main__':
-    usage = "extract-audio-from-video some.mp4"
+    parser = argparse.ArgumentParser(description="extract-audio-from-video")
+    parser.add_argument("mp4_filename", help="Path to the .mp4 file")
+    args = parser.parse_args()
 
-    if len(sys.argv) != 2:
-        print(usage)
-        sys.exit(1)
-
-    mp4_filename = sys.argv[1]
-    resultingFilenames = extract_mp3s(mp4_filename)
+    resultingFilenames = extract_mp3s(args.mp4_filename)
     print(f"Generated {len(resultingFilenames)} mp3 files")
